@@ -20,7 +20,11 @@
             <td>{{ grade.studentlevel }} </td>
             <td> {{ grade.hws }}</td>
             <td>{{ grade.exam }} </td>
-            <td>{{ grade.final }} </td> 
+            <!--<td>{{ grade.final }} </td> -->
+            <td class='red' v-if="grade.hws < 21"> {{ grade.final}}</td>
+            <td class='red' v-else-if="grade.exam < 21"> {{ grade.final}}</td>
+            <td class='red' v-else-if="grade.final < 51"> {{ grade.final}}</td>
+            <td class='green' v-else>{{ grade.final}}</td>
           </tr>
           </tbody>
     </table>
@@ -62,6 +66,12 @@ th, td {
   font-size: 15px;
   margin-bottom: 5px;
   padding: 8px 10px;
+}
+.red{
+  background: rgb(225, 33, 19); 
+}
+.green{
+  background: rgb(14, 194, 65); 
 }
 .container {
   background: #d5d7d8;
