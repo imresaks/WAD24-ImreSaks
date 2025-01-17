@@ -22,7 +22,7 @@
             <td><input name="examfeedback" type="textarea" id="examfeedback" required v-model="grade.examfeedback"></td>
             <!--<td><input name="final" type="number" id="final" required v-model="grade.final "></td> -->
             <td class="purplebackground">{{ grade.hws + grade.exam }} </td>
-            <td><button class="update"  @click="updateGrade(grade.id, grade)"><b>update</b></button> </td>
+            <td><button class="update"  @click="updateGrade(grade.id, grade)" :disabled="!grade.examfeedback"><b>update</b></button> </td>
           </tr>
           </tbody>
           </table>
@@ -38,6 +38,20 @@ export default {
     return {
       grades: [],
     };
+  },
+  watch: {
+    grades: {
+      handler(newGrades) {
+        newGrades.forEach(grade => {
+          this.$watch(() => grade.exam, (newVal, oldVal) => {
+            if (newVal !== oldVal) {
+              grade.examfeedback = '';
+            }
+          });
+        });
+      },
+      deep: true
+    }
   },
   methods: {
     fetchRecords() {
