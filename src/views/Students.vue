@@ -21,14 +21,18 @@
             <td> {{ grade.hws }}</td>
             <td>{{ grade.exam }} </td>
             <!--<td>{{ grade.final }} </td> -->
-            <td class='red' v-if="grade.hws < 21"> {{ grade.final}}</td>
-            <td class='red' v-else-if="grade.exam < 21"> {{ grade.final}}</td>
-            <td class='red' v-else-if="grade.final < 51"> {{ grade.final}}</td>
-            <td class='green' v-else>{{ grade.final}}</td>
+            <td class='red' v-if="grade.hws < 21" @click="showFeedback(grade.examfeedback)"> {{ grade.final}}</td>
+            <td class='red' v-else-if="grade.exam < 21" @click="showFeedback(grade.examfeedback)"> {{ grade.final}}</td>
+            <td class='red' v-else-if="grade.final < 51" @click="showFeedback(grade.examfeedback)"> {{ grade.final}}</td>
+            <td class='green' v-else @click="showFeedback(grade.examfeedback)">{{ grade.final}}</td>
           </tr>
           </tbody>
     </table>
   </div>
+  <div v-if="selectedFeedback" class="feedback-box">
+    <b>Exam feedback: </b>
+    {{ selectedFeedback }}
+    </div>
 </div>
 </template>
 
@@ -38,6 +42,7 @@ export default {
   data() {
     return {
       grades: [],
+      selectedFeedback: null
     };
   },
   methods: {
@@ -47,6 +52,9 @@ export default {
         .then((data) => (this.grades = data))
         .catch((err) => console.log(err.message));
   },
+  showFeedback(feedback) {
+      this.selectedFeedback = feedback;
+    }
   },
   mounted() {
     this.fetchRecords();
@@ -72,6 +80,12 @@ th, td {
 }
 .green{
   background: rgb(14, 194, 65); 
+}
+.feedback-box {
+  background-color: #c96ece;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
 }
 .container {
   background: #d5d7d8;
