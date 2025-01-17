@@ -21,7 +21,8 @@
             <td><input name="exam" type="number" id="exam"  required v-model="grade.exam "></td>
             <td><input name="examfeedback" type="textarea" id="examfeedback" required v-model="grade.examfeedback"></td>
             <!--<td><input name="final" type="number" id="final" required v-model="grade.final "></td> -->
-            <td class="finalgradebackground">{{ grade.hws + grade.exam }} </td>
+            <td class="purplebackground">{{ grade.hws + grade.exam }} </td>
+            <td><button class="update"  @click="updateGrade(grade.id, grade)"><b>update</b></button> </td>
           </tr>
           </tbody>
           </table>
@@ -45,6 +46,21 @@ export default {
         .then((data) => (this.grades = data))
         .catch((err) => console.log(err.message));
   },
+  updateGrade(id, grade) {
+      fetch(`http://localhost:3000/api/grades/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify( {"id": id, "studentcode": grade.studentcode, "studentlevel": grade.studentlevel, "hws": grade.hws, "exam": grade.exam, "examfeedback": grade.examfeedback, "final": grade.hws + grade.exam} ),
+            })
+        .then((response) => {
+          this.$router.push("/");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
   mounted() {
     this.fetchRecords();
@@ -54,8 +70,19 @@ export default {
 </script>
 
 <style scoped>
-.finalgradebackground {
+.purplebackground {
   background: rgb(128, 147, 212);
+}
+.update {
+  background: rgb(128, 147, 212);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  margin-top: 30px;
+  margin: auto;
+  width: 120%;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
 }
 .container {
   background: #d5d7d8;
