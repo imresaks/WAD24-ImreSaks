@@ -20,7 +20,8 @@
             <td><input name="hws" type="number" id="hws"  required  v-model="grade.hws"></td>
             <td><input name="exam" type="number" id="exam"  required v-model="grade.exam "></td>
             <td><input name="examfeedback" type="textarea" id="examfeedback" required v-model="grade.examfeedback"></td>
-            <td><input name="final" type="number" id="final" required v-model="grade.final "></td> 
+            <!--<td><input name="final" type="number" id="final" required v-model="grade.final "></td> -->
+            <td class="finalgradebackground">{{ grade.hws + grade.exam }} </td>
           </tr>
           </tbody>
           </table>
@@ -53,6 +54,9 @@ export default {
 </script>
 
 <style scoped>
+.finalgradebackground {
+  background: rgb(128, 147, 212);
+}
 .container {
   background: #d5d7d8;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
